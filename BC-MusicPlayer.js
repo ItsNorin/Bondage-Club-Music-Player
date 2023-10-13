@@ -23,7 +23,7 @@ const modApi = bcModSdk.registerMod({
     name: BC_Music_FullName,
     fullName: "BC-MusicPlayer",
     version: BC_Music_Version,
-    repository: "https://github.com/ItsNorin/Bondage-Club-XToys-Integration",
+    repository: "https://github.com/ItsNorin/Bondage-Club-Music-Player",
 });
 
 const MusicPlayer = (function () {
@@ -87,7 +87,6 @@ const MusicPlayer = (function () {
     await waitFor(() => ServerIsConnected && ServerSocket);
     await waitFor(() => !!Commands);
 
-
     console.log("Started " + BC_Music_FullName + " version " + BC_Music_Version + ".");
 
     const BC_Music_Command = {
@@ -95,16 +94,15 @@ const MusicPlayer = (function () {
         Description: "Shows all info about " + BC_Music_FullName,
         Action: (_, command, args) => {
             const FullHelpMsg = '<b>' + BC_Music_FullName + '</b> v' + BC_Music_Version + '\n'
-                //+ 'Github: <a href="https://github.com/ItsNorin/Bondage-Club-XToys-Integration" target="_blank" rel="noopener noreferrer">github.com/ItsNorin/Bondage-Club-XToys-Integration</a>\n\n'
+                + 'Github: <a href="https://github.com/ItsNorin/Bondage-Club-Music-Player" target="_blank" rel="noopener noreferrer">github.com/ItsNorin/Bondage-Club-Music-Player</a>\n\n'
 
                 + '<b>Commands</b>\n'
 
                 + '<b>/music play [url]</b>\n'
-                + 'Sets current room music to given url. (mp3/mp4 only) \n'
+                + 'Sets current room music to given url (mp3/mp4 only). Will stop music if no url is given. Can use <b>/music p</b> as shorthand \n'
 
                 + '<b>/music stop</b>\n'
-                + "Stops current room's music\n"
-                ;
+                + "Stops current room's music. Can use <b>/music s</b> \n";
 
             if (args.length == 0) {
                 ChatRoomSendLocal(FullHelpMsg);
@@ -119,7 +117,11 @@ const MusicPlayer = (function () {
 
                     case 'play':
                     case 'p':
-                        ChatRoomSendLocal(MusicPlayer.setRoomMusic(args[1]));
+                        if (args.length == 1) {
+                            ChatRoomSendLocal(MusicPlayer.clearRoomMusic());
+                        } else {
+                            ChatRoomSendLocal(MusicPlayer.setRoomMusic(args[1]));
+                        }
                         break;
 
                     case 'stop':
@@ -140,10 +142,6 @@ const MusicPlayer = (function () {
     else {
         Commands.push(BC_Music_Command);
     }
-
-
-
-
 })();
 
 
