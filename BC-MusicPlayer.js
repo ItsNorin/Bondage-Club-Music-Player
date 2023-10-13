@@ -48,13 +48,13 @@ const MusicPlayer = (function () {
     }
 
     function _stopMusic() {
-        _setCustomMusicInfo('');   
-        ChatAdminUpdateRoom();     
+        _setCustomMusicInfo('');
+        ChatAdminUpdateRoom();
     }
 
     function _playNewMusic(url) {
-        _setCustomMusicInfo(url);   
-        ChatAdminUpdateRoom();     
+        _setCustomMusicInfo(url);
+        ChatAdminUpdateRoom();
     }
 
     return {
@@ -99,11 +99,11 @@ const MusicPlayer = (function () {
 
                 + '<b>Commands</b>\n'
 
-                + '<b>/music play</b>\n'
-                + ' \n'
+                + '<b>/music play [url]</b>\n'
+                + 'Sets current room music to given url. (mp3/mp4 only) \n'
 
                 + '<b>/music stop</b>\n'
-                + ' \n'
+                + "Stops current room's music\n"
                 ;
 
             if (args.length == 0) {
@@ -122,7 +122,7 @@ const MusicPlayer = (function () {
                         ChatRoomSendLocal(MusicPlayer.setRoomMusic(args[1]));
                         break;
 
-                    case 'stop': 
+                    case 'stop':
                     case 's':
                         ChatRoomSendLocal(MusicPlayer.clearRoomMusic());
 
